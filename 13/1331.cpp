@@ -2,7 +2,7 @@
 /*****************************************************************************
 *                      ----Stay Hungry Stay Foolish----                      *
 *    @author    :   Shen                                                     *
-*    @name      :   LightOJ 1182                                             *
+*    @name      :   LightOJ 1331                                             *
 *****************************************************************************/
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,18 +17,33 @@ inline double nextDbf() { double x; scanf("%lf", &x); return x; }
 inline int64  nextlld() { int64 d; scanf("%lld", &d); return d; }
 inline int64  next64d() { int64 d; scanf("%I64d",&d); return d; }
 
+const double pi = 2 * acos(0.0);
 
-const char e[] = "even";
-const char o[] = "odd";
+double calcAngle(double a, double b, double c)
+{
+    return acos((a * a + b * b - c * c) / (2.0 * a * b));
+}
+
+double calcS(double a, double b, double c)
+{
+    double p = 0.5 * (a + b + c);
+    return sqrt(p * (p - a) * (p - b) * (p - c));
+}
+
 int t, tt;
+double r1, r2, r3;
 
 void solve()
 {
-    unsigned long n = (unsigned long)nextInt();
-    bitset<32> b(n);
-    //__builtin_popcount(n)
-    if (b.count() & 1) printf("Case %d: %s\n", ++tt, o);
-    else printf("Case %d: %s\n", ++tt, e);
+    r1 = nextDbf(); r2= nextDbf(); r3 = nextDbf();
+    double a = r1 + r2;
+    double b = r2 + r3;
+    double c = r3 + r1;
+    double s = calcS(a, b, c);
+    s -= r1 * r1 * 0.5 * calcAngle(c, a, b);
+    s -= r2 * r2 * 0.5 * calcAngle(a, b, c);
+    s -= r3 * r3 * 0.5 * calcAngle(b, c, a);
+    printf("Case %d: %.7lf\n", ++tt, s);
 }
 
 int main()

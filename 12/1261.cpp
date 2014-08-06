@@ -2,7 +2,7 @@
 /*****************************************************************************
 *                      ----Stay Hungry Stay Foolish----                      *
 *    @author    :   Shen                                                     *
-*    @name      :   LightOJ 1182                                             *
+*    @name      :   LightOJ 1261                                             *
 *****************************************************************************/
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,18 +17,44 @@ inline double nextDbf() { double x; scanf("%lf", &x); return x; }
 inline int64  nextlld() { int64 d; scanf("%lld", &d); return d; }
 inline int64  next64d() { int64 d; scanf("%I64d",&d); return d; }
 
+typedef vector<int> vi;
+typedef vector<vi> vii;
 
-const char e[] = "even";
-const char o[] = "odd";
-int t, tt;
+const char aye[] = "Yes";
+const char nay[] = "No";
+const int  MaxM  = 35;
+const int  MaxN  = 35;
+int t, tt, n, m, k, p, tmp;
 
 void solve()
 {
-    unsigned long n = (unsigned long)nextInt();
-    bitset<32> b(n);
-    //__builtin_popcount(n)
-    if (b.count() & 1) printf("Case %d: %s\n", ++tt, o);
-    else printf("Case %d: %s\n", ++tt, e);
+    n = nextInt(); m = nextInt(); k = nextInt();
+    vii  v2(MaxN); vi   v1(MaxM);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < k; j++)
+    {
+        tmp = nextInt();
+        v2[i].push_back(tmp);
+    }
+    p = nextInt();
+    for (int i = 0; i < p; i++)
+    {
+        tmp = nextInt();
+        v1[tmp] = 1;
+    }
+    bool flag = 0;
+    for (int i = 0; i < n; i++)
+    {
+        int cnt = 0;
+        for (int j = 0; j < k; j++)
+        {
+            if (v2[i][j] < 0 && !v1[-v2[i][j]]) cnt++;
+            if (v2[i][j] > 0 &&  v1[ v2[i][j]]) cnt++;
+        }
+        if (cnt == 0) flag = 1;
+    }
+    if (flag) printf("Case %d: %s\n", ++tt, nay);
+    else      printf("Case %d: %s\n", ++tt, aye);
 }
 
 int main()

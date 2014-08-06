@@ -2,7 +2,7 @@
 /*****************************************************************************
 *                      ----Stay Hungry Stay Foolish----                      *
 *    @author    :   Shen                                                     *
-*    @name      :   LightOJ 1182                                             *
+*    @name      :   LightOJ 1225                                             *
 *****************************************************************************/
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,22 +17,32 @@ inline double nextDbf() { double x; scanf("%lf", &x); return x; }
 inline int64  nextlld() { int64 d; scanf("%lld", &d); return d; }
 inline int64  next64d() { int64 d; scanf("%I64d",&d); return d; }
 
-
-const char e[] = "even";
-const char o[] = "odd";
+const char aye[] = "Yes";
+const char nay[] = "No";
 int t, tt;
+char s[15];
 
 void solve()
 {
-    unsigned long n = (unsigned long)nextInt();
-    bitset<32> b(n);
-    //__builtin_popcount(n)
-    if (b.count() & 1) printf("Case %d: %s\n", ++tt, o);
-    else printf("Case %d: %s\n", ++tt, e);
+    int sz = 0;
+    while (1)
+    {
+        char ch = getchar();
+        if (ch == ' ' || (ch == '0' && sz == 0)) continue;
+        else if (ch == '\n') break;
+        else s[sz++] = ch;
+    }
+    bool flag = 1;
+    for (int i = 0, j = sz - 1; i <= j; i++, j--)
+        if (s[i] == s[j]) continue;
+        else { flag = 0; break; }
+    if (flag) printf("Case %d: %s\n", ++tt, aye);
+    else printf("Case %d: %s\n", ++tt, nay);
 }
+
 
 int main()
 {
-    t = nextInt(); while (t--) solve();
+    t = nextInt(); getchar(); while (t--) solve();
     return 0;
 }

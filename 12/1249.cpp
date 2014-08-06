@@ -2,7 +2,7 @@
 /*****************************************************************************
 *                      ----Stay Hungry Stay Foolish----                      *
 *    @author    :   Shen                                                     *
-*    @name      :   LightOJ 1182                                             *
+*    @name      :   LightOJ 1249                                             *
 *****************************************************************************/
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,18 +17,29 @@ inline double nextDbf() { double x; scanf("%lf", &x); return x; }
 inline int64  nextlld() { int64 d; scanf("%lld", &d); return d; }
 inline int64  next64d() { int64 d; scanf("%I64d",&d); return d; }
 
+struct package
+{
+    char name[25];
+    int sum;
+    inline bool operator<(const package& p) const { return sum < p.sum; }
+};
 
-const char e[] = "even";
-const char o[] = "odd";
-int t, tt;
+package a[105];
+int t, tt, n;
 
 void solve()
 {
-    unsigned long n = (unsigned long)nextInt();
-    bitset<32> b(n);
-    //__builtin_popcount(n)
-    if (b.count() & 1) printf("Case %d: %s\n", ++tt, o);
-    else printf("Case %d: %s\n", ++tt, e);
+    n = nextInt();
+    int x = 0, y = 0, z = 0;
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%s%d%d%d", a[i].name, &x, &y, &z);
+        a[i].sum = x * y * z;
+    }
+    sort(a, a + n);
+    if (a[0].sum == a[n - 1].sum)
+        printf("Case %d: no thief\n", ++tt);
+    else printf("Case %d: %s took chocolate from %s\n", ++tt, a[n - 1].name, a[0].name);
 }
 
 int main()

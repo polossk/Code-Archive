@@ -2,7 +2,7 @@
 /*****************************************************************************
 *                      ----Stay Hungry Stay Foolish----                      *
 *    @author    :   Shen                                                     *
-*    @name      :   LightOJ 1182                                             *
+*    @name      :   LightOJ 1311                                             *
 *****************************************************************************/
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,18 +17,16 @@ inline double nextDbf() { double x; scanf("%lf", &x); return x; }
 inline int64  nextlld() { int64 d; scanf("%lld", &d); return d; }
 inline int64  next64d() { int64 d; scanf("%I64d",&d); return d; }
 
-
-const char e[] = "even";
-const char o[] = "odd";
 int t, tt;
+double v1, v2, v3, a1, a2, s, m;
 
 void solve()
 {
-    unsigned long n = (unsigned long)nextInt();
-    bitset<32> b(n);
-    //__builtin_popcount(n)
-    if (b.count() & 1) printf("Case %d: %s\n", ++tt, o);
-    else printf("Case %d: %s\n", ++tt, e);
+    v1 = nextDbf(); v2 = nextDbf(); v3 = nextDbf();
+    a1 = nextDbf(); a2 = nextDbf();
+    s = v1 * v1 / a1 / 2.0 + v2 * v2 / a2 / 2.0;
+    m = max(v1 / a1, v2 / a2);
+    printf("Case %d: %.7lf %.7lf\n", ++tt, s, m * v3);
 }
 
 int main()

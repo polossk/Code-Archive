@@ -2,7 +2,7 @@
 /*****************************************************************************
 *                      ----Stay Hungry Stay Foolish----                      *
 *    @author    :   Shen                                                     *
-*    @name      :   LightOJ 1182                                             *
+*    @name      :   LightOJ 1433                                             *
 *****************************************************************************/
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,18 +17,31 @@ inline double nextDbf() { double x; scanf("%lf", &x); return x; }
 inline int64  nextlld() { int64 d; scanf("%lld", &d); return d; }
 inline int64  next64d() { int64 d; scanf("%I64d",&d); return d; }
 
+typedef complex<double> pnt;
+#define x real()
+#define y imag()
 
-const char e[] = "even";
-const char o[] = "odd";
+double dis2(const pnt& a, const pnt& b)
+{
+    double dx = a.x - b.x;
+    double dy = a.y - b.y;
+    return dx * dx + dy * dy;
+}
+
 int t, tt;
+pnt a, b, o;
 
 void solve()
 {
-    unsigned long n = (unsigned long)nextInt();
-    bitset<32> b(n);
-    //__builtin_popcount(n)
-    if (b.count() & 1) printf("Case %d: %s\n", ++tt, o);
-    else printf("Case %d: %s\n", ++tt, e);
+    o.x = nextDbf(); o.y = nextDbf();
+    a.x = nextDbf(); a.y = nextDbf();
+    b.x = nextDbf(); b.y = nextDbf();
+    double sa = dis2(o, a);
+    double sb = dis2(o, b);
+    double sc = dis2(a, b);
+    double rs = (sa + sb - sc) / (2 * sqrt(sa * sb));
+    double ans = acos(rs) * sqrt(sa);
+    printf("Case %d: %lf\n", ++tt, ans);
 }
 
 int main()
