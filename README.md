@@ -33,7 +33,11 @@ CodeBank
  <td><a href="https://github.com/polossk/CodeBank/tree/master/CodeBankOfZOJ" target="_blank">Click</a></td>
 </tr>
 <tr>
- <td>Other Online Judges</td>
- <td><a href="https://github.com/polossk/CodeBank/tree/master/CodeBankOfOtherOJ" target="_blank">Click</a></td>
+ <td><a href="http://acm.sgu.ru/" target="_blank">SGU</a></td>
+ <td><a href="http://acm.sgu.ru/teaminfo.php?id=062751" target="_blank">Click</a></td>
+</tr>
+<tr>
+ <td><a href="http://acm.timus.ru/" target="_blank">Ural</a></td>
+ <td><a href="http://acm.timus.ru/author.aspx?id=171083" target="_blank">Click</a></td>
 </tr>
 </tbody></table>
