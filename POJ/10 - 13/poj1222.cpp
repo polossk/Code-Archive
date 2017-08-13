@@ -1,24 +1,13 @@
-// <!-- encoding UTF-8 --!>
+// <!--encoding UTF-8 UTF-8缂栫爜--!>
 /*****************************************************************************
 *                      ----Stay Hungry Stay Foolish----                      *
 *    @author    :   Shen                                                     *
 *    @name      :   poj 1222                                                 *
 *****************************************************************************/
-// 人一我百，人十我万！追逐青春的梦想，怀着自信的心，永不放弃！
-//#pragma GCC optimize ("O2")
-//#pragma comment(linker, "/STACK:1024000000,1024000000")
 
-//#include <bits/stdc++.h>
-#include <map>
-#include <list>
-#include <queue>
-#include <stack>
-#include <cmath>
-#include <vector>
 #include <string>
 #include <cstdio>
 #include <cstring>
-#include <cstdlib>
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -33,78 +22,80 @@ inline double nextDbf() { double x; scanf("%lf", &x); return x; }
 inline int64  nextlld() { int64 d; scanf("%lld", &d); return d; }
 inline int64  next64d() { int64 d; scanf("%I64d",&d); return d; }
 
-const int MaxN = 40;
-int a[MaxN][MaxN];
-int x[MaxN];
-int equ, var;
+/*//Computational Geometry
+#include <complex>
+#define x real()
+#define y imag()
+typedef complex<double> point;
+*/
 
-//
-//
-int Gauss()
+const int MAXN = 40;
+
+inline int xorsolve(int a[][MAXN], int ans[], int n_equ, int n_var)
 {
-	int i, j, k;
-	int max_r;
-	int col;
-	int temp;
-
-	col = 0;
-	for (k = 0; k < equ && col < var; k++, col++)
-	{
-		max_r = k;
-		for (i = k + 1; i < equ; i++)
-			max_r = abs(a[i][col]) > abs(a[max_r][col])? i: max_r;
-		if (max_r != k) for (j = k; j < var + 1; j++)
-			swap(a[k][j], a[max_r][j]);
-		if (a[k][col] == 0) { k--; continue; }
-		for (i = k + 1; i < equ; i++) if (a[i][col] != 0)
-		{
-			for (j = col; j < var + 1; j++)
-				a[i][j] ^= a[k][j];
-		}
-	}
-	for (i = var - 1; i >= 0; i--)
+    // old format: A[][] * x[] = B[]
+    // new format: A[][0 .. n - 1] * x[] = A[][n]
+    // the last row is B[] so called
+    int res = 0, r = 0;
+    for (int i = 0, col = 0; i < n_equ && col < n_var; i++, col++)
     {
-        x[i] = a[i][var];
-        for (j = i + 1; j < var; j++)
-            x[i] ^= (a[i][j] && x[j]);
+        int m_row = i;
+        for (int j = i + 1; j < n_equ; j++)
+            m_row = abs(a[j][col]) > abs(a[m_row][col]) ? j : m_row;
+        if (m_row != i) for (int j = i; j < n_var + 1; j++)
+            swap(a[i][j], a[m_row][j]);
+        if (a[i][col] == 0) { i--; continue; }
+        for (int j = i + 1; j < n_equ; j++) if (a[j][col] != 0)
+        {
+            for (int k = col; k < n_var + 1; k++)
+                a[j][k] ^= a[i][k];
+        }
     }
-	return 0;
+    for (int i = n_var - 1; i >= 0; i--)
+    {
+        ans[i] = a[i][n_var];
+        for (int j = i + 1; j < n_var; j++)
+            ans[i] ^= (a[i][j] && ans[j]);
+    }
+    return 0;
 }
 
-void build()
-{
-    memset(a, 0, sizeof(a));
-    equ = var = 30;
-    for (int i = 0; i < 5; i++) for (int j = 0; j < 6; j++)
-    {
-        int t = i * 6 + j;
-        a[t][t] = 1;
-        if (i > 0) a[(i - 1) * 6 + j][t] = 1;
-        if (i < 4) a[(i + 1) * 6 + j][t] = 1;
-        if (j > 0) a[i * 6 + (j - 1)][t] = 1;
-        if (j < 5) a[i * 6 + (j + 1)][t] = 1;
-    }
-}
+const int n_equ = 30;
+const int n_var = 30;
+const int n_row = 5;
+const int n_col = 6;
+int tt, a[MAXN][MAXN], x[MAXN];
 
-int tt = 0;
+void init()
+{
+    memset(a, 0, sizeof a);
+    for (int i = 0; i < n_row; i++)
+        for (int j = 0; j < n_col; j++)
+    {
+        int _ = i * n_col + j;
+        a[_][_] = 1;
+        if (i > 0) a[_ - 6][_] = 1;
+        if (i < 4) a[_ + 6][_] = 1;
+        if (j > 0) a[_ - 1][_] = 1;
+        if (j < 5) a[_ + 1][_] = 1;
+    }
+    for (int i = 0, _ = n_col * n_row; i < _; i++)
+        a[i][_] = nextInt();
+}
 
 void solve()
 {
-	build();
-    for (int i = 0; i < 30; i++) a[i][30] = nextInt();
-    Gauss();
+    init();
+    int ret = xorsolve(a, x, n_equ, n_var);
     printf("PUZZLE #%d\n", ++tt);
     for (int i = 0; i < 30; i++)
-    {
-        if (i % 6 == 0) printf("%d", x[i]);
-        else if (i % 6 == 5) printf(" %d\n", x[i]);
-        else printf(" %d", x[i]);
-    }
+        printf("%d%c", x[i], i % 6 == 5 ? '\n' : ' ');
+    return;
 }
 
 int main()
 {
-	int t = nextInt();
-	while (t--) solve();
+    int t = nextInt();
+    while (t--) solve();
     return 0;
 }
