@@ -24,8 +24,9 @@ inline int64  next64d() { int64 d; scanf("%I64d",&d); return d; }
 #define y imag()
 typedef complex<double> point;
 */
+
 string s;
-int ans, L, N;
+int ans, L, R;
 const int MAXL = 16000;
 int tt;
 
@@ -33,8 +34,10 @@ int ones, newlen, len;
 
 void dfs(int idx)
 {
-    if (newlen > L || ones > N || ans > 1) return;
-    if (idx >= len) { ans += (newlen == L) && (ones == N); return; }
+    if (newlen > L || ones > R || ans > 1) return;
+
+    if (idx >= len) { ans += (newlen + ones == L + R); return; }
+
     if (s[idx] == '1')
     {
         for (int j = idx, k = 0, tmpones = 1; j < len; j++)
@@ -60,16 +63,19 @@ void dfs(int idx)
         }
     }
     else { newlen++; dfs(idx + 1); newlen--; }
+
+
+}
+
+void solve()
+{
+    s = nextStr(); len = s.size();
+    ans = ones = newlen = 0; dfs(0);
+    printf("Case #%d: %s\n", ++tt, ans > 1 ? "NOT UNIQUE" : (ans ? "YES" : "NO"));
 }
 
 int main()
 {
-    while (cin >> L >> N)
-    {
-        if (L == 0) break;
-        s = nextStr(); len = s.size();
-        ans = ones = newlen = 0; dfs(0);
-        printf("Case #%d: %s\n", ++tt, ans > 1 ? "NOT UNIQUE" : ans ? "YES" : "NO");
-    }
+    while (cin >> L >> R && L + R) solve();
     return 0;
 }
